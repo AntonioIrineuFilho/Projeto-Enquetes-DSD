@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="6d7342b0-4693-4dc4-a46b-6543fa679384" activeEnvironment="Default" name="Enquetes WSDL" resourceRoot="" soapui-version="5.9.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="bfd765aa-1be4-47a1-b3e9-a5004f0b4218" wsaVersion="NONE" name="Application" type="wsdl" bindingName="{soap.test}Application" soapVersion="1_1" anonymous="optional" definition="http://localhost:8000/?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8000/?wsdl"><con:part><con:url>http://localhost:8000/?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="soap.test" name="Application" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:plink="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:wsdlsoap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdlsoap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap11enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap11env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap12env="http://www.w3.org/2003/05/soap-envelope" xmlns:soap12enc="http://www.w3.org/2003/05/soap-encoding" xmlns:wsa="http://schemas.xmlsoap.org/ws/2003/03/addressing" xmlns:xop="http://www.w3.org/2004/08/xop/include" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="soap.test">
+  <wsdl:types>
+    <xs:schema targetNamespace="soap.test" elementFormDefault="qualified">
+      <xs:complexType name="ChoiceOutput">
+        <xs:sequence>
+          <xs:element name="id" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="title" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="votes" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AuthHeader">
+        <xs:sequence>
+          <xs:element name="Token" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ChoiceInput">
+        <xs:sequence>
+          <xs:element name="title" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="VotePercent">
+        <xs:sequence>
+          <xs:element name="choice" type="tns:ChoiceOutput" minOccurs="0" nillable="true"/>
+          <xs:element name="percent" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createEnqueteResponse">
+        <xs:sequence>
+          <xs:element name="createEnqueteResult" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="deleteEnquete">
+        <xs:sequence>
+          <xs:element name="enquete_id" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="deleteEnqueteResponse">
+        <xs:sequence>
+          <xs:element name="deleteEnqueteResult" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="detailEnquete">
+        <xs:sequence>
+          <xs:element name="enquete_id" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateEnqueteResponse">
+        <xs:sequence>
+          <xs:element name="updateEnqueteResult" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="voteChoice">
+        <xs:sequence>
+          <xs:element name="choice_id" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="voteChoiceResponse">
+        <xs:sequence>
+          <xs:element name="voteChoiceResult" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="votesCount">
+        <xs:sequence>
+          <xs:element name="enquete_id" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="VotePercentArray">
+        <xs:sequence>
+          <xs:element name="VotePercent" type="tns:VotePercent" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ChoiceOutputArray">
+        <xs:sequence>
+          <xs:element name="ChoiceOutput" type="tns:ChoiceOutput" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ChoiceInputArray">
+        <xs:sequence>
+          <xs:element name="ChoiceInput" type="tns:ChoiceInput" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="EnqueteInput">
+        <xs:sequence>
+          <xs:element name="title" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="description" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="end_date" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="choices" type="tns:ChoiceInputArray" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="EnqueteOutput">
+        <xs:sequence>
+          <xs:element name="id" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="title" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="description" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="start_date" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="end_date" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="choices" type="tns:ChoiceOutputArray" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="VotesCount">
+        <xs:sequence>
+          <xs:element name="choices" type="tns:VotePercentArray" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createEnquete">
+        <xs:sequence>
+          <xs:element name="enquete" type="tns:EnqueteInput" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="detailEnqueteResponse">
+        <xs:sequence>
+          <xs:element name="detailEnqueteResult" type="tns:EnqueteOutput" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateEnquete">
+        <xs:sequence>
+          <xs:element name="enquete_id" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="enquete" type="tns:EnqueteInput" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="votesCountResponse">
+        <xs:sequence>
+          <xs:element name="votesCountResult" type="tns:VotesCount" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ChoiceOutput" type="tns:ChoiceOutput"/>
+      <xs:element name="AuthHeader" type="tns:AuthHeader"/>
+      <xs:element name="ChoiceInput" type="tns:ChoiceInput"/>
+      <xs:element name="VotePercent" type="tns:VotePercent"/>
+      <xs:element name="createEnqueteResponse" type="tns:createEnqueteResponse"/>
+      <xs:element name="deleteEnquete" type="tns:deleteEnquete"/>
+      <xs:element name="deleteEnqueteResponse" type="tns:deleteEnqueteResponse"/>
+      <xs:element name="detailEnquete" type="tns:detailEnquete"/>
+      <xs:element name="updateEnqueteResponse" type="tns:updateEnqueteResponse"/>
+      <xs:element name="voteChoice" type="tns:voteChoice"/>
+      <xs:element name="voteChoiceResponse" type="tns:voteChoiceResponse"/>
+      <xs:element name="votesCount" type="tns:votesCount"/>
+      <xs:element name="VotePercentArray" type="tns:VotePercentArray"/>
+      <xs:element name="ChoiceOutputArray" type="tns:ChoiceOutputArray"/>
+      <xs:element name="ChoiceInputArray" type="tns:ChoiceInputArray"/>
+      <xs:element name="EnqueteInput" type="tns:EnqueteInput"/>
+      <xs:element name="EnqueteOutput" type="tns:EnqueteOutput"/>
+      <xs:element name="VotesCount" type="tns:VotesCount"/>
+      <xs:element name="createEnquete" type="tns:createEnquete"/>
+      <xs:element name="detailEnqueteResponse" type="tns:detailEnqueteResponse"/>
+      <xs:element name="updateEnquete" type="tns:updateEnquete"/>
+      <xs:element name="votesCountResponse" type="tns:votesCountResponse"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="createEnquete">
+    <wsdl:part name="createEnquete" element="tns:createEnquete"/>
+  </wsdl:message>
+  <wsdl:message name="createEnqueteResponse">
+    <wsdl:part name="createEnqueteResponse" element="tns:createEnqueteResponse"/>
+  </wsdl:message>
+  <wsdl:message name="AuthHeader">
+    <wsdl:part name="AuthHeader" element="tns:AuthHeader"/>
+  </wsdl:message>
+  <wsdl:message name="detailEnquete">
+    <wsdl:part name="detailEnquete" element="tns:detailEnquete"/>
+  </wsdl:message>
+  <wsdl:message name="detailEnqueteResponse">
+    <wsdl:part name="detailEnqueteResponse" element="tns:detailEnqueteResponse"/>
+  </wsdl:message>
+  <wsdl:message name="updateEnquete">
+    <wsdl:part name="updateEnquete" element="tns:updateEnquete"/>
+  </wsdl:message>
+  <wsdl:message name="updateEnqueteResponse">
+    <wsdl:part name="updateEnqueteResponse" element="tns:updateEnqueteResponse"/>
+  </wsdl:message>
+  <wsdl:message name="deleteEnquete">
+    <wsdl:part name="deleteEnquete" element="tns:deleteEnquete"/>
+  </wsdl:message>
+  <wsdl:message name="deleteEnqueteResponse">
+    <wsdl:part name="deleteEnqueteResponse" element="tns:deleteEnqueteResponse"/>
+  </wsdl:message>
+  <wsdl:message name="voteChoice">
+    <wsdl:part name="voteChoice" element="tns:voteChoice"/>
+  </wsdl:message>
+  <wsdl:message name="voteChoiceResponse">
+    <wsdl:part name="voteChoiceResponse" element="tns:voteChoiceResponse"/>
+  </wsdl:message>
+  <wsdl:message name="votesCount">
+    <wsdl:part name="votesCount" element="tns:votesCount"/>
+  </wsdl:message>
+  <wsdl:message name="votesCountResponse">
+    <wsdl:part name="votesCountResponse" element="tns:votesCountResponse"/>
+  </wsdl:message>
+  <wsdl:service name="EnqueteService">
+    <wsdl:port name="Application" binding="tns:Application">
+      <wsdlsoap11:address location="http://localhost:8000/"/>
+    </wsdl:port>
+  </wsdl:service>
+  <wsdl:portType name="Application">
+    <wsdl:operation name="createEnquete" parameterOrder="createEnquete">
+      <wsdl:input name="createEnquete" message="tns:createEnquete"/>
+      <wsdl:output name="createEnqueteResponse" message="tns:createEnqueteResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="detailEnquete" parameterOrder="detailEnquete">
+      <wsdl:input name="detailEnquete" message="tns:detailEnquete"/>
+      <wsdl:output name="detailEnqueteResponse" message="tns:detailEnqueteResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateEnquete" parameterOrder="updateEnquete">
+      <wsdl:input name="updateEnquete" message="tns:updateEnquete"/>
+      <wsdl:output name="updateEnqueteResponse" message="tns:updateEnqueteResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteEnquete" parameterOrder="deleteEnquete">
+      <wsdl:input name="deleteEnquete" message="tns:deleteEnquete"/>
+      <wsdl:output name="deleteEnqueteResponse" message="tns:deleteEnqueteResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="voteChoice" parameterOrder="voteChoice">
+      <wsdl:input name="voteChoice" message="tns:voteChoice"/>
+      <wsdl:output name="voteChoiceResponse" message="tns:voteChoiceResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="votesCount" parameterOrder="votesCount">
+      <wsdl:input name="votesCount" message="tns:votesCount"/>
+      <wsdl:output name="votesCountResponse" message="tns:votesCountResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Application" type="tns:Application">
+    <wsdlsoap11:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createEnquete">
+      <wsdlsoap11:operation soapAction="createEnquete" style="document"/>
+      <wsdl:input name="createEnquete">
+        <wsdlsoap11:body use="literal"/>
+        <wsdlsoap11:header use="literal" message="tns:AuthHeader" part="AuthHeader"/>
+      </wsdl:input>
+      <wsdl:output name="createEnqueteResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="detailEnquete">
+      <wsdlsoap11:operation soapAction="detailEnquete" style="document"/>
+      <wsdl:input name="detailEnquete">
+        <wsdlsoap11:body use="literal"/>
+        <wsdlsoap11:header use="literal" message="tns:AuthHeader" part="AuthHeader"/>
+      </wsdl:input>
+      <wsdl:output name="detailEnqueteResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateEnquete">
+      <wsdlsoap11:operation soapAction="updateEnquete" style="document"/>
+      <wsdl:input name="updateEnquete">
+        <wsdlsoap11:body use="literal"/>
+        <wsdlsoap11:header use="literal" message="tns:AuthHeader" part="AuthHeader"/>
+      </wsdl:input>
+      <wsdl:output name="updateEnqueteResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteEnquete">
+      <wsdlsoap11:operation soapAction="deleteEnquete" style="document"/>
+      <wsdl:input name="deleteEnquete">
+        <wsdlsoap11:body use="literal"/>
+        <wsdlsoap11:header use="literal" message="tns:AuthHeader" part="AuthHeader"/>
+      </wsdl:input>
+      <wsdl:output name="deleteEnqueteResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="voteChoice">
+      <wsdlsoap11:operation soapAction="voteChoice" style="document"/>
+      <wsdl:input name="voteChoice">
+        <wsdlsoap11:body use="literal"/>
+        <wsdlsoap11:header use="literal" message="tns:AuthHeader" part="AuthHeader"/>
+      </wsdl:input>
+      <wsdl:output name="voteChoiceResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="votesCount">
+      <wsdlsoap11:operation soapAction="votesCount" style="document"/>
+      <wsdl:input name="votesCount">
+        <wsdlsoap11:body use="literal"/>
+        <wsdlsoap11:header use="literal" message="tns:AuthHeader" part="AuthHeader"/>
+      </wsdl:input>
+      <wsdl:output name="votesCountResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8000/</con:endpoint></con:endpoints><con:operation id="9843f53a-9e7d-4566-b599-9655479d787c" isOneWay="false" action="createEnquete" name="createEnquete" bindingOperationName="createEnquete" type="Request-Response" outputName="createEnqueteResponse" inputName="createEnquete" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="2bf44797-8921-4850-8c83-353d740f35ca" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.test">\r
+   <soapenv:Header>\r
+      <soap:AuthHeader>\r
+         <!--Optional:-->\r
+         <soap:Token>?</soap:Token>\r
+      </soap:AuthHeader>\r
+   </soapenv:Header>\r
+   <soapenv:Body>\r
+      <soap:createEnquete>\r
+         <!--Optional:-->\r
+         <soap:enquete>\r
+            <!--Optional:-->\r
+            <soap:title>?</soap:title>\r
+            <!--Optional:-->\r
+            <soap:description>?</soap:description>\r
+            <!--Optional:-->\r
+            <soap:end_date>?</soap:end_date>\r
+            <!--Optional:-->\r
+            <soap:choices>\r
+               <!--Zero or more repetitions:-->\r
+               <soap:ChoiceInput>\r
+                  <!--Optional:-->\r
+                  <soap:title>?</soap:title>\r
+               </soap:ChoiceInput>\r
+            </soap:choices>\r
+         </soap:enquete>\r
+      </soap:createEnquete>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="createEnquete"/></con:call><con:call id="c0f53a5e-d75c-4a7a-ad17-37a78f69925b" name="Request 2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.test">
+   <soapenv:Header>
+      <soap:AuthHeader>
+         <soap:Token>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MX0.UJJd9uXxe2xDH9l6iHBlnBkMSXdFdZr-Uz-R5Ygel7A</soap:Token>
+      </soap:AuthHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <soap:createEnquete>
+         <soap:enquete>
+            <soap:title>Melhor linguagem de programação</soap:title>
+            <soap:description>Escolha sua linguagem favorita</soap:description>
+            <soap:end_date>2025-12-31</soap:end_date>
+            <soap:choices>
+               <soap:ChoiceInput>
+                  <soap:title>Python</soap:title>
+               </soap:ChoiceInput>
+               <soap:ChoiceInput>
+                  <soap:title>JavaScript</soap:title>
+               </soap:ChoiceInput>
+               <soap:ChoiceInput>
+                  <soap:title>C#</soap:title>
+               </soap:ChoiceInput>
+            </soap:choices>
+         </soap:enquete>
+      </soap:createEnquete>
+   </soapenv:Body>
+</soapenv:Envelope>
+]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="createEnquete"/><con:wsrmConfig version="1.2"/></con:call><con:call id="17c29e12-e464-4cce-a41c-4df9241b5a9b" name="Request 3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.test">
+   <soapenv:Header>
+      <soap:AuthHeader>
+         <soap:Token>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXN0ZSI6MTIzfQ.weJ9UT1o7vFKHFoY01WVwWH7Zo_iHarrf0seHf71N1M</soap:Token>
+      </soap:AuthHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <soap:createEnquete>
+         <soap:enquete>
+            <soap:title>Melhor jogador de futebol</soap:title>
+            <soap:description>Escolha uma opção</soap:description>
+            <soap:end_date>2025-12-31</soap:end_date>
+            <soap:choices>
+               <soap:ChoiceInput>
+                  <soap:title>Neymar</soap:title>
+               </soap:ChoiceInput>
+               <soap:ChoiceInput>
+                  <soap:title>Messi</soap:title>
+               </soap:ChoiceInput>
+               <soap:ChoiceInput>
+                  <soap:title>CR7</soap:title>
+               </soap:ChoiceInput>
+            </soap:choices>
+         </soap:enquete>
+      </soap:createEnquete>
+   </soapenv:Body>
+</soapenv:Envelope>
+]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="createEnquete"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="0c0cc481-59b0-46d3-b72b-343f424d76d4" isOneWay="false" action="deleteEnquete" name="deleteEnquete" bindingOperationName="deleteEnquete" type="Request-Response" outputName="deleteEnqueteResponse" inputName="deleteEnquete" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="7fc8bb6c-0238-4cc3-8c57-65f6d6aadc50" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.test">\r
+   <soapenv:Header>\r
+      <soap:AuthHeader>\r
+         <!--Optional:-->\r
+         <soap:Token>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXN0ZSI6MTIzfQ.weJ9UT1o7vFKHFoY01WVwWH7Zo_iHarrf0seHf71N1M</soap:Token>\r
+      </soap:AuthHeader>\r
+   </soapenv:Header>\r
+   <soapenv:Body>\r
+      <soap:deleteEnquete>\r
+         <!--Optional:-->\r
+         <soap:enquete_id>1</soap:enquete_id>\r
+      </soap:deleteEnquete>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="deleteEnquete"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="8f98f091-78cb-4564-96ac-eff2124781bc" isOneWay="false" action="detailEnquete" name="detailEnquete" bindingOperationName="detailEnquete" type="Request-Response" outputName="detailEnqueteResponse" inputName="detailEnquete" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="2b35091b-95f8-4bde-9c91-393922d2cc70" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.test">\r
+   <soapenv:Header>\r
+      <soap:AuthHeader>\r
+         <!--Optional:-->\r
+         <soap:Token>?</soap:Token>\r
+      </soap:AuthHeader>\r
+   </soapenv:Header>\r
+   <soapenv:Body>\r
+      <soap:detailEnquete>\r
+         <!--Optional:-->\r
+         <soap:enquete_id>?</soap:enquete_id>\r
+      </soap:detailEnquete>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="detailEnquete"/><con:wsrmConfig version="1.2"/></con:call><con:call id="d2c0f92f-ab7b-46d1-b2e6-3d7b849da539" name="Request 2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.test">\r
+   <soapenv:Header>\r
+      <soap:AuthHeader>\r
+         <!--Optional:-->\r
+         <soap:Token>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXN0ZSI6MTIzfQ.weJ9UT1o7vFKHFoY01WVwWH7Zo_iHarrf0seHf71N1M</soap:Token>\r
+      </soap:AuthHeader>\r
+   </soapenv:Header>\r
+   <soapenv:Body>\r
+      <soap:detailEnquete>\r
+         <!--Optional:-->\r
+         <soap:enquete_id>2</soap:enquete_id>\r
+      </soap:detailEnquete>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="detailEnquete"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="85126812-77d1-4cb7-8ca9-d27a616356df" isOneWay="false" action="updateEnquete" name="updateEnquete" bindingOperationName="updateEnquete" type="Request-Response" outputName="updateEnqueteResponse" inputName="updateEnquete" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="21422243-b6f8-4829-bedc-bd55dbc508fc" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.test">\r
+   <soapenv:Header>\r
+      <soap:AuthHeader>\r
+         <!--Optional:-->\r
+         <soap:Token>?</soap:Token>\r
+      </soap:AuthHeader>\r
+   </soapenv:Header>\r
+   <soapenv:Body>\r
+      <soap:updateEnquete>\r
+         <!--Optional:-->\r
+         <soap:enquete_id>?</soap:enquete_id>\r
+         <!--Optional:-->\r
+         <soap:enquete>\r
+            <!--Optional:-->\r
+            <soap:title>?</soap:title>\r
+            <!--Optional:-->\r
+            <soap:description>?</soap:description>\r
+            <!--Optional:-->\r
+            <soap:end_date>?</soap:end_date>\r
+            <!--Optional:-->\r
+            <soap:choices>\r
+               <!--Zero or more repetitions:-->\r
+               <soap:ChoiceInput>\r
+                  <!--Optional:-->\r
+                  <soap:title>?</soap:title>\r
+               </soap:ChoiceInput>\r
+            </soap:choices>\r
+         </soap:enquete>\r
+      </soap:updateEnquete>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="updateEnquete"/></con:call><con:call id="bbc6ffb6-a79e-4735-9ee1-e7bd9ce90fff" name="Request 2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.test">\r
+   <soapenv:Header>\r
+      <soap:AuthHeader>\r
+         <!--Optional:-->\r
+         <soap:Token>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXN0ZSI6MTIzfQ.weJ9UT1o7vFKHFoY01WVwWH7Zo_iHarrf0seHf71N1M</soap:Token>\r
+      </soap:AuthHeader>\r
+   </soapenv:Header>\r
+   <soapenv:Body>\r
+      <soap:updateEnquete>\r
+         <!--Optional:-->\r
+         <soap:enquete_id>1</soap:enquete_id>\r
+         <!--Optional:-->\r
+         <soap:enquete>\r
+            <!--Optional:-->\r
+            <soap:title>Linguagem mais fácil</soap:title>\r
+            <!--Optional:-->\r
+            <soap:description>Escolha uma linguagem</soap:description>\r
+            <!--Optional:-->\r
+            <soap:end_date>2026-01-01</soap:end_date>\r
+            <!--Optional:-->\r
+            <soap:choices>\r
+               <!--Zero or more repetitions:-->\r
+               <soap:ChoiceInput>\r
+                  <!--Optional:-->\r
+                  <soap:title>?</soap:title>\r
+               </soap:ChoiceInput>\r
+            </soap:choices>\r
+         </soap:enquete>\r
+      </soap:updateEnquete>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="updateEnquete"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e1808bbd-0173-4889-87d2-643468bd795b" name="Request 3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.test">\r
+   <soapenv:Header>\r
+      <soap:AuthHeader>\r
+         <!--Optional:-->\r
+         <soap:Token>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXN0ZSI6MTIzfQ.weJ9UT1o7vFKHFoY01WVwWH7Zo_iHarrf0seHf71N1M</soap:Token>\r
+      </soap:AuthHeader>\r
+   </soapenv:Header>\r
+   <soapenv:Body>\r
+      <soap:updateEnquete>\r
+         <!--Optional:-->\r
+         <soap:enquete_id>1</soap:enquete_id>\r
+         <!--Optional:-->\r
+         <soap:enquete>\r
+            <!--Optional:-->\r
+            <soap:title>Linguagem favorita</soap:title>\r
+            <!--Optional:-->\r
+            <soap:description>Escolha uma</soap:description>\r
+            <!--Optional:-->\r
+            <soap:end_date>2026-01-01</soap:end_date>\r
+         </soap:enquete>\r
+      </soap:updateEnquete>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="updateEnquete"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="2d36c95c-982c-403c-9539-0b0bb5ae03b3" isOneWay="false" action="voteChoice" name="voteChoice" bindingOperationName="voteChoice" type="Request-Response" outputName="voteChoiceResponse" inputName="voteChoice" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="db02450a-429d-4f8a-9b80-4a4730b278fd" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.test">\r
+   <soapenv:Header>\r
+      <soap:AuthHeader>\r
+         <!--Optional:-->\r
+         <soap:Token>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXN0ZSI6MTIzfQ.weJ9UT1o7vFKHFoY01WVwWH7Zo_iHarrf0seHf71N1M</soap:Token>\r
+      </soap:AuthHeader>\r
+   </soapenv:Header>\r
+   <soapenv:Body>\r
+      <soap:voteChoice>\r
+         <!--Optional:-->\r
+         <soap:choice_id>5</soap:choice_id>\r
+      </soap:voteChoice>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="voteChoice"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="c7e27ac2-f591-4d3c-a603-9733bf4b3bab" isOneWay="false" action="votesCount" name="votesCount" bindingOperationName="votesCount" type="Request-Response" outputName="votesCountResponse" inputName="votesCount" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="d532deea-af02-4ac7-a1fb-5e82181fa36f" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.test">\r
+   <soapenv:Header>\r
+      <soap:AuthHeader>\r
+         <!--Optional:-->\r
+         <soap:Token>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXN0ZSI6MTIzfQ.weJ9UT1o7vFKHFoY01WVwWH7Zo_iHarrf0seHf71N1M</soap:Token>\r
+      </soap:AuthHeader>\r
+   </soapenv:Header>\r
+   <soapenv:Body>\r
+      <soap:votesCount>\r
+         <!--Optional:-->\r
+         <soap:enquete_id>2</soap:enquete_id>\r
+      </soap:votesCount>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="votesCount"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
