@@ -1,0 +1,33 @@
+enum ENQUETE_STATUS {
+    ATIVA
+    FECHADA
+}
+
+Table Usuario {
+    id int [pk, increment]
+    usuario varchar
+    senha varchar
+}
+
+Table Enquete {
+    id int [pk, increment]
+    titulo varchar
+    status ENQUETE_STATUS
+    data_criacao timestamp
+    data_incio timestamp
+    data_fim timestamp
+    criador_id int [ref: > Usuario.id]
+}
+
+Table Opcao {
+    id int [pk, increment]
+    texto varchar
+    ordem int
+    enquete_id int [ref: > Enquete.id]
+}
+
+Table Voto {
+    id int [pk, increment]
+    opcao_id int [ref: > Opcao.id]
+    usuario_id int [ref: - Usuario.id]
+}
