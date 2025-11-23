@@ -21,7 +21,6 @@ export const handle = async (
   try {
     const { username, password } = req.body;
 
-    // console.log(username, password);
     const dto = await authService.register(username, password);
 
     return res.json(dto).status(StatusCodes.CREATED);

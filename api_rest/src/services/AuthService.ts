@@ -23,8 +23,8 @@ class AuthService {
 
     await prisma.usuario.create({
       data: {
-        usuario: username,
-        senha: hashedPassword,
+        usuario: username.toString(),
+        senha: hashedPassword.toString(),
       },
     });
 
