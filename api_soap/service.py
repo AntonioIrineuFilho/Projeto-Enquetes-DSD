@@ -2,8 +2,6 @@ from spyne import Application, rpc, ServiceBase, Unicode, Array, ComplexModel, F
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
 from wsgiref.simple_server import make_server
-from config import SECRET_KEY
-import jwt
 import sqlite3
 
 # tipos do XML (não necessariamente o que tem no banco, mas o que deve exsitir dentro do XML)
@@ -43,34 +41,12 @@ class VotePercent(ComplexModel):
 class VotesCount(ComplexModel):
     choices = Array(VotePercent)
 
-class AuthHeader(ComplexModel):
-    Token = Unicode
 
 # métodos possíveis de serem chamados na requisição (CRUD + estatísticas)
-
-class EnqueteService(ServiceBase):
-    @staticmethod
-    def tokenValidation(ctx):
-        token = ctx.in_header.Token
-        token = token.strip("'").strip('"')
-        print("TOKEN RECEBIDO:", token)
-        # teste = jwt.encode({"teste": 123}, SECRET_KEY, algorithm="HS256")
-        # print(f"TOKEN GERADO PELO SERVIDOR: {teste}")
-        print("SECRET_KEY UTILIZADA:", SECRET_KEY)
-        if not (token):
-            raise Fault(faultcode="Client", faultstring="Token ausente")
-        try:
-            jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-        except jwt.ExpiredSignatureError:
-            raise Fault(faultcode="Client", faultstring="Token expirado")
-        except jwt.InvalidTokenError:
-            raise Fault(faultcode="Client", faultstring="Token inválido")
-        
+class EnqueteService(ServiceBase): 
     # primeiro parâmetro do rpc é a entrada do XML, e o returns explicita a saída do método
     @rpc(EnqueteInput, _returns=Unicode, _in_header=(AuthHeader,))
     def createEnquete(ctx, enquete): # ctx = context = dados da requisição como tipos, operações, autenticação (com exceção dos dados do corpo)
-        # verificar token no ctx antes de liberar operação
-        EnqueteService.tokenValidation(ctx)
         connection = sqlite3.connect("enquetes_db") # conectar ao banco
         connection.execute("PRAGMA foreign_keys = ON") 
         cursor = connection.cursor()
@@ -90,8 +66,6 @@ class EnqueteService(ServiceBase):
 
     @rpc(Unicode, _returns=EnqueteOutput, _in_header=(AuthHeader,))
     def detailEnquete(ctx, enquete_id):
-        # verificar token no ctx antes de liberar operação
-        EnqueteService.tokenValidation(ctx)
         connection = sqlite3.connect("enquetes_db")
         connection.execute("PRAGMA foreign_keys = ON") 
         cursor = connection.cursor()
@@ -127,8 +101,6 @@ class EnqueteService(ServiceBase):
     
     @rpc(Unicode, EnqueteInputUpdate, _returns=Unicode, _in_header=(AuthHeader,))
     def updateEnquete(ctx, enquete_id, enquete):
-        # verificar token no ctx antes de liberar operação
-        EnqueteService.tokenValidation(ctx)
         connection = sqlite3.connect("enquetes_db")
         connection.execute("PRAGMA foreign_keys = ON") 
         cursor = connection.cursor()
@@ -151,8 +123,6 @@ class EnqueteService(ServiceBase):
     
     @rpc(Unicode, _returns=Unicode, _in_header=(AuthHeader,))
     def deleteEnquete(ctx, enquete_id):
-         # verificar token no ctx antes de liberar operação
-        EnqueteService.tokenValidation(ctx)
         connection = sqlite3.connect("enquetes_db") 
         connection.execute("PRAGMA foreign_keys = ON") 
         cursor = connection.cursor()
@@ -173,8 +143,6 @@ class EnqueteService(ServiceBase):
     
     @rpc(Unicode, _returns=Unicode, _in_header=(AuthHeader,))
     def voteChoice(ctx, choice_id):
-         # verificar token no ctx antes de liberar operação
-        EnqueteService.tokenValidation(ctx)
         connection = sqlite3.connect("enquetes_db")
         connection.execute("PRAGMA foreign_keys = ON") 
         cursor = connection.cursor()
@@ -198,8 +166,6 @@ class EnqueteService(ServiceBase):
     
     @rpc(Unicode, _returns=VotesCount, _in_header=(AuthHeader,))
     def votesCount(ctx, enquete_id):
-        # verificar token no ctx antes de liberar operação
-        EnqueteService.tokenValidation(ctx)
         connection = sqlite3.connect("enquetes_db")  
         connection.execute("PRAGMA foreign_keys = ON")  
         cursor =  connection.cursor()
