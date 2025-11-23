@@ -1,13 +1,8 @@
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import { PrismaClient } from "~/prisma/generated/client";
-import { env } from "prisma/config";
-import dotenv from "dotenv";
-import path from "path";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
-
-const adapter = new PrismaBetterSqlite3({
-  url: env("PRISMA_DATABASE_URL"),
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL,
 });
 
 const prisma = new PrismaClient({
