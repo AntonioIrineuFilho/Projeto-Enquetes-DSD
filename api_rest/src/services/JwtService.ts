@@ -22,7 +22,7 @@ class JwtService {
     return { token, refreshToken };
   }
 
-  async validateTokens(jwt: string): Promise<JWTPayload> {
+  async validateToken(jwt: string): Promise<JWTPayload> {
     const { payload } = await jwtVerify(jwt, this.KEY);
 
     if (!payload) {
