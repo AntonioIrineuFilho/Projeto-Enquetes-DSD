@@ -1,4 +1,5 @@
-import UsernameInUseError from "@/errors/UsernameInUseError";
+import InvalidPasswordError from "@/errors/InvalidPasswordError";
+import UserNotFoundError from "@/errors/UserNotFoundError";
 import { validation } from "@/middlewares/validation";
 import authService from "@/services/AuthService";
 import { Request, Response } from "express";
@@ -17,16 +18,21 @@ export const validate = validation("body", reqBodySchema);
 export const handle = async (
   req: Request<any, any, TReqBody>,
   res: Response
-): Promise<Response> => {
+) => {
   try {
     const { username, password } = req.body;
 
-    const dto = await authService.register(username, password);
+    const tokens = await authService.login(username, password);
 
-    return res.status(StatusCodes.CREATED).json(dto);
+    return res.json(tokens);
   } catch (err) {
-    if (err instanceof UsernameInUseError) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ Error: err.message });
+    if (
+      err instanceof UserNotFoundError ||
+      err instanceof InvalidPasswordError
+    ) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ Error: "Credenciais inválidas" });
     }
 
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
