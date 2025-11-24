@@ -5,10 +5,11 @@ import { useAuth } from "../context/AuthContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import axios from "axios";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth(); 
+  const { login } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,21 +20,18 @@ export default function Login() {
     setBackendError(null);
 
     try {
-      const res = await fetch("http://localhost:3334/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+      const res = await axios.post("http://localhost:3333/auth/login", {
+        username,
+        password,
       });
 
-      if (!res.ok) {
+      if (res.status !== 200) {
         setBackendError("Credenciais inválidas");
         return;
       }
 
-      const data = await res.json();
-
-      login(data.token);   
-      navigate("/enquetes");   //deveria navegar para a pagina de enquetes apos auth mas nao vai
+      login(res.data.token);
+      navigate("/enquetes"); //deveria navegar para a pagina de enquetes apos auth mas nao vai
     } catch (err) {
       setBackendError("Erro de conexão com o servidor");
     }

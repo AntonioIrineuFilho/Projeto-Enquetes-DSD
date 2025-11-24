@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import EnqueteForm from "../components/EnqueteForm";
+import axios from "axios";
 
 export default function Enquetes() {
   const [enquetes, setEnquetes] = useState<any[]>([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const loadEnquetes = async () => {
     try {
-      const res = await fetch("http://localhost:8000/enquetes");
-      if (!res.ok) throw new Error("Erro ao buscar enquetes");
-      const data = await res.json();
-      setEnquetes(data);
+      const res = await axios.get("http://localhost:3333/enquetes");
+      if (res.status !== 200) throw new Error("Erro ao buscar enquetes");
+      setEnquetes(res.data);
     } catch (err) {
       console.error(err);
     }
@@ -21,18 +22,23 @@ export default function Enquetes() {
     loadEnquetes();
   }, []);
 
+  const handleCreateEnquete = () => {
+    loadEnquetes();
+    setIsModalVisible(false);
+  };
+
   return (
     <div className="p-8 max-w-3xl mx-auto space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-bold">Enquetes</h1>
 
-        <Dialog>
+        <Dialog open={isModalVisible} onOpenChange={setIsModalVisible}>
           <DialogTrigger asChild>
             <Button>Nova Enquete</Button>
           </DialogTrigger>
 
           <DialogContent>
-            <EnqueteForm onCreated={loadEnquetes} />
+            <EnqueteForm onCreated={handleCreateEnquete} />
           </DialogContent>
         </Dialog>
       </div>

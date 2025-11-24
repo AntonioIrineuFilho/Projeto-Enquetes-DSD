@@ -3,10 +3,12 @@ import URLS from "./urls";
 import { EnqueteController, VoteController } from "./controllers";
 import validateAuthHeader from "./middlewares/validateAuthHeader";
 import proxy from "express-http-proxy";
+import cors from "cors";
 
 const server = express();
 
 server.use(json());
+server.use(cors());
 
 const authRestApiProxy = proxy(URLS.AUTH_REST_API);
 

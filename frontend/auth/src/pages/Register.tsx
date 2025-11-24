@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import axios from "axios";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -14,16 +15,13 @@ export default function Register() {
     setBackendError(null);
     setSuccess(false);
 
-    const res = await fetch("http://localhost:3334/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+    const res = await axios.post("http://localhost:3333/auth/register", {
+      username,
+      password,
     });
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      setBackendError(data.error || data.message || JSON.stringify(data));
+    if (res.status !== 200) {
+      setBackendError("Credenciais inválidas");
       return;
     }
 
