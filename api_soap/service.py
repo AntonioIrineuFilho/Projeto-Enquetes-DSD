@@ -26,6 +26,7 @@ class EnqueteOutput(ComplexModel):
 
 class Enquetes(ComplexModel):
     enquetes = Array(EnqueteOutput)
+    total_enquetes = String
 
 class ChoiceInput(ComplexModel):
     title = String
@@ -110,6 +111,13 @@ class EnqueteService(ServiceBase):
         connection = psycopg2.connect(os.environ.get("DATABASE_URL"))
         cursor = connection.cursor()
         offset = int(page) * int(limit)
+
+        cursor.execute("""
+            SELECT COUNT(e.id)
+            FROM enquetes e;
+        """)
+        total = cursor.fetchone()[0]
+
         cursor.execute("""
             SELECT 
                 e.id AS enquete_id,
@@ -122,7 +130,7 @@ class EnqueteService(ServiceBase):
                 c.votes AS choice_votes
             FROM enquetes e
             LEFT JOIN choices c ON c.enquete_id = e.id
-            ORDER BY e.id, c.id
+            ORDER BY e.start_date DESC
             LIMIT %s OFFSET %s;
         """, [limit, offset])
         enquetes = cursor.fetchall()
@@ -146,7 +154,7 @@ class EnqueteService(ServiceBase):
                         votes=str(enquete[7])
                     )
                 )
-        return Enquetes(enquetes=list(enquetes_dict.values()))
+        return Enquetes(enquetes=list(enquetes_dict.values()), total_enquetes=str(total))
             
 
 

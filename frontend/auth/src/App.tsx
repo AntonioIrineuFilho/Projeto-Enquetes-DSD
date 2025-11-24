@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Enquetes from "./pages/Enquetes";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import "rsuite/Pagination/styles/index.css";
 
 const ProtectedRoute = ({ children }: any) => {
   const { token } = useAuth();
