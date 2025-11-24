@@ -18,7 +18,7 @@ const validateAuthHeader = async (
 
   const validateRes = await axios.get(`${URLS.AUTH_REST_API}/validate-token`, {
     headers: {
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
   });
 

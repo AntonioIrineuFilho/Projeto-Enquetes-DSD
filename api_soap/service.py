@@ -1,42 +1,46 @@
-from spyne import Application, rpc, ServiceBase, Unicode, Array, ComplexModel, Fault
+from spyne import Application, rpc, ServiceBase, DateTime, String, Unicode, Array, ComplexModel, Fault
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
 from wsgiref.simple_server import make_server
-import sqlite3
+import psycopg2
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # tipos do XML (não necessariamente o que tem no banco, mas o que deve exsitir dentro do XML)
 # o SOAP precisa de especificação de quais dados são de output e quais são de input(por isso o id só aparece nas classes de output)
 
 class ChoiceOutput(ComplexModel):
-    id = Unicode
-    title = Unicode
-    votes = Unicode
+    id = String
+    title = String
+    votes = String
 
 class EnqueteOutput(ComplexModel):
-    id = Unicode
-    title = Unicode
-    description = Unicode
-    start_date = Unicode
-    end_date = Unicode
+    id = String
+    title = String
+    description = String
+    start_date = String
+    end_date = String
     choices = Array(ChoiceOutput)
 
 class ChoiceInput(ComplexModel):
-    title = Unicode
+    title = String
 
 class EnqueteInput(ComplexModel):
-    title = Unicode
-    description = Unicode
-    end_date = Unicode
+    title = String
+    description = String
+    end_date = String
     choices = Array(ChoiceInput)
 
 class EnqueteInputUpdate(ComplexModel):
-    title = Unicode
-    description = Unicode
-    end_date = Unicode    
+    title = String
+    description = String
+    end_date = String    
 
 class VotePercent(ComplexModel):
     choice = ChoiceOutput
-    percent = Unicode
+    percent = String
 
 class VotesCount(ComplexModel):
     choices = Array(VotePercent)
@@ -45,34 +49,33 @@ class VotesCount(ComplexModel):
 # métodos possíveis de serem chamados na requisição (CRUD + estatísticas)
 class EnqueteService(ServiceBase): 
     # primeiro parâmetro do rpc é a entrada do XML, e o returns explicita a saída do método
-    @rpc(EnqueteInput, _returns=Unicode, _in_header=(AuthHeader,))
+    @rpc(EnqueteInput, _returns=Unicode)
     def createEnquete(ctx, enquete): # ctx = context = dados da requisição como tipos, operações, autenticação (com exceção dos dados do corpo)
-        connection = sqlite3.connect("enquetes_db") # conectar ao banco
-        connection.execute("PRAGMA foreign_keys = ON") 
+        connection = psycopg2.connect(os.environ.get("DATABASE_URL"))
         cursor = connection.cursor()
         cursor.execute("""
             INSERT INTO enquetes (title, description, end_date) 
-            VALUES (?, ?, ?)
+            VALUES (%s, %s, %s)
+            RETURNING id
         """, (enquete.title, enquete.description, enquete.end_date))
-        enquete_id = cursor.lastrowid
+        enquete_id = cursor.fetchone()[0]
         for choice in enquete.choices:
             cursor.execute("""
                 INSERT INTO choices (title, enquete_id)
-                VALUES (?, ?)
+                VALUES (%s, %s)
             """, (choice.title, enquete_id))
         connection.commit()
         connection.close()
         return str(enquete_id)
 
-    @rpc(Unicode, _returns=EnqueteOutput, _in_header=(AuthHeader,))
+    @rpc(Unicode, _returns=EnqueteOutput)
     def detailEnquete(ctx, enquete_id):
-        connection = sqlite3.connect("enquetes_db")
-        connection.execute("PRAGMA foreign_keys = ON") 
+        connection = psycopg2.connect(os.environ.get("DATABASE_URL"))
         cursor = connection.cursor()
         cursor.execute("""
             SELECT * 
             FROM enquetes 
-            WHERE id=?
+            WHERE id=%s
         """, (enquete_id,)) # a vírgula é porque precisa ser uma tupla
         enquete = cursor.fetchone() # retorna uma tupla com cada atributo da instância
         if not (enquete):
@@ -80,7 +83,7 @@ class EnqueteService(ServiceBase):
         cursor.execute("""
             SELECT * 
             FROM choices 
-            WHERE enquete_id=?
+            WHERE enquete_id=%s
         """, (enquete_id,))
         choices = cursor.fetchall() # retorna lista de tuplas
         connection.close()
@@ -94,85 +97,81 @@ class EnqueteService(ServiceBase):
             id=str(enquete[0]),
             title=enquete[1],
             description=enquete[2],
-            start_date=enquete[3],
-            end_date=enquete[4],
+            start_date=str(enquete[3]) if enquete[3] is not None else "",
+            end_date=str(enquete[4]) if enquete[4] is not None else "",
             choices=choices_output
         )
     
-    @rpc(Unicode, EnqueteInputUpdate, _returns=Unicode, _in_header=(AuthHeader,))
+    @rpc(Unicode, EnqueteInputUpdate, _returns=Unicode)
     def updateEnquete(ctx, enquete_id, enquete):
-        connection = sqlite3.connect("enquetes_db")
-        connection.execute("PRAGMA foreign_keys = ON") 
+        connection = psycopg2.connect(os.environ.get("DATABASE_URL"))
         cursor = connection.cursor()
         cursor.execute("""
             SELECT * 
             FROM enquetes 
-            WHERE id=?
+            WHERE id=%s
         """, (enquete_id,))
         if not (cursor.fetchone()):
             raise Fault(faultcode="Client", faultstring="Enquete não encontrada")
         cursor.execute("""
             UPDATE enquetes 
-            SET title=?, description=?, end_date=?
-            WHERE id=?
+            SET title=%s, description=%s, end_date=%s
+            WHERE id=%s
         """, (enquete.title, enquete.description, enquete.end_date, enquete_id))
         connection.commit()
         connection.close()
 
         return "OK"
     
-    @rpc(Unicode, _returns=Unicode, _in_header=(AuthHeader,))
+    @rpc(Unicode, _returns=Unicode)
     def deleteEnquete(ctx, enquete_id):
-        connection = sqlite3.connect("enquetes_db") 
-        connection.execute("PRAGMA foreign_keys = ON") 
+        connection = psycopg2.connect(os.environ.get("DATABASE_URL")) 
         cursor = connection.cursor()
         cursor.execute("""
-            SELECT * FROM enquetes WHERE id=?
+            SELECT * FROM enquetes WHERE id=%s
         """, (enquete_id,))
         if not (cursor.fetchone()):
             raise Fault(faultcode="Client", faultstring="Enquete não encontrada")
         cursor.execute("""
             DELETE
             FROM enquetes
-            WHERE id=?
+            WHERE id=%s
         """, (enquete_id,))
         connection.commit()
         connection.close()
 
         return "OK"
     
-    @rpc(Unicode, _returns=Unicode, _in_header=(AuthHeader,))
+    @rpc(Unicode, _returns=Unicode)
     def voteChoice(ctx, choice_id):
-        connection = sqlite3.connect("enquetes_db")
-        connection.execute("PRAGMA foreign_keys = ON") 
+        connection = psycopg2.connect(os.environ.get("DATABASE_URL"))
         cursor = connection.cursor()
         cursor.execute("""
             SELECT *
             FROM choices
-            WHERE id=?
+            WHERE id=%s
         """, (choice_id,))
         choice_selected = cursor.fetchone()
         if not (choice_selected):
             raise Fault(faultcode="Client", faultstring="Escolha não encontrada")
         cursor.execute("""
             UPDATE choices
-            SET votes=?
-            WHERE id=?
+            SET votes=%s
+            WHERE id=%s
         """, (choice_selected[2]+1, choice_id))
         connection.commit()
         connection.close()
 
         return "OK"
     
-    @rpc(Unicode, _returns=VotesCount, _in_header=(AuthHeader,))
+    @rpc(Unicode, _returns=VotesCount)
     def votesCount(ctx, enquete_id):
-        connection = sqlite3.connect("enquetes_db")  
-        connection.execute("PRAGMA foreign_keys = ON")  
+        connection = psycopg2.connect(os.environ.get("DATABASE_URL"))  
         cursor =  connection.cursor()
         cursor.execute("""
             SELECT *
             FROM choices
-            WHERE enquete_id=?
+            WHERE enquete_id=%s
         """, (enquete_id,))
         choices_selected = cursor.fetchall()
         connection.close()

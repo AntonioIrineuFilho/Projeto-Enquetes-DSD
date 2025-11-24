@@ -3,11 +3,13 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 export const handle = async (req: Request, res: Response) => {
-  const token = req.headers.authorization;
+  const authorization = req.headers.authorization;
 
-  if (!token) {
+  if (!authorization) {
     return res.status(StatusCodes.BAD_REQUEST).send();
   }
+
+  const [_, token] = authorization.split("Bearer ");
 
   const payload = await jwtService.validateToken(token);
 

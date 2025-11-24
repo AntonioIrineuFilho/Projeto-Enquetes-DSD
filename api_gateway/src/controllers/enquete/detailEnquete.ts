@@ -16,7 +16,6 @@ export const detailEnquete = async (req: Request, res: Response) => {
     payload,
     (err: any, result: any) => {
       if (err) {
-        console.log(err);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
       }
 

@@ -8,43 +8,28 @@ datasource db {
 }
 
 model Usuario {
-  id       Int       @id @default(autoincrement())
-  usuario  String    @unique
-  senha    String
-  enquetes Enquete[]
-  votos Voto[]
+  id      Int    @id @default(autoincrement())
+  usuario String @unique
+  senha   String
 }
 
 model Enquete {
-  id           Int            @id @default(autoincrement())
-  titulo       String
-  status       ENQUETE_STATUS
-  data_criacao DateTime       @default(now())
-  data_inicio  DateTime
-  data_fim     DateTime
-  criador      Usuario        @relation(fields: [criador_id], references: [id], onDelete: Cascade)
-  criador_id   Int
-  opcoes       Opcao[]
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String   @default("")
+  start_date  DateTime @default(now()) @db.Date
+  end_date    DateTime @db.Date
+  opcoes      Opcao[]
+
+  @@map("enquetes")
 }
 
 model Opcao {
   id         Int     @id @default(autoincrement())
-  texto      String
-  ordem      Int
+  title      String
+  votes      Int     @default(0)
   enquete    Enquete @relation(fields: [enquete_id], references: [id], onDelete: Cascade)
   enquete_id Int
-  votos      Voto[]
-}
 
-model Voto {
-  id         Int     @id @default(autoincrement())
-  opcao      Opcao   @relation(fields: [opcao_id], references: [id], onDelete: Cascade)
-  opcao_id   Int
-  usuario    Usuario @relation(fields: [usuario_id], references: [id], onDelete: SetDefault)
-  usuario_id Int     @default(0)
-}
-
-enum ENQUETE_STATUS {
-  ATIVA
-  FECHADA
+  @@map("choices")
 }
