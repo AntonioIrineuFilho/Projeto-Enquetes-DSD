@@ -237,8 +237,3 @@ if __name__ == '__main__':
     server = make_server('0.0.0.0', 8000, wsgi_app)
     print("Rodando serviço SOAP em http://localhost:8000")
     server.serve_forever()
-        
-
-
-
-        

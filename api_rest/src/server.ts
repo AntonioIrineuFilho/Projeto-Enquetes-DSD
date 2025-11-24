@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import {
   LoginController,
   RegisterController,
@@ -7,6 +8,12 @@ import {
 
 const server = express();
 server.use(express.json());
+server.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 server.post(
   "/register",

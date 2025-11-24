@@ -24,7 +24,7 @@ export const handle = async (
 
     const tokens = await authService.login(username, password);
 
-    return res.json(tokens);
+    return res.status(200).json(tokens);
   } catch (err) {
     if (
       err instanceof UserNotFoundError ||
@@ -32,7 +32,7 @@ export const handle = async (
     ) {
       return res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ Error: "Credenciais inválidas" });
+        .json({ error: "Credenciais inválidas" });
     }
 
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
