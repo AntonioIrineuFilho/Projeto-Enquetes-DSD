@@ -31,7 +31,7 @@ export default function Login() {
       }
 
       login(res.data.token);
-      navigate("/enquetes"); //deveria navegar para a pagina de enquetes apos auth mas nao vai
+      navigate("/enquetes");
     } catch (err) {
       setBackendError("Erro de conexão com o servidor");
     }

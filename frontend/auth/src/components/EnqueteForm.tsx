@@ -20,7 +20,11 @@ export default function EnqueteForm({ onCreated }: EnqueteFormProps) {
   const [date, setDate] = useState("");
   const [choices, setChoices] = useState<IChoice[]>([]);
 
-  const addChoice = () => setChoices([...choices, { title: "" }]);
+  const addChoice = () => {
+    if (choices.length >= 4) return;
+    setChoices([...choices, { title: "" }]);
+  }
+  const today = new Date().toISOString().split("T")[0];
 
   const submit = async () => {
     try {
@@ -81,6 +85,7 @@ export default function EnqueteForm({ onCreated }: EnqueteFormProps) {
         <Input
           type="date"
           value={date}
+          min={today}
           onChange={(e) => setDate(e.target.value)}
         />
       </div>

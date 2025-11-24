@@ -20,7 +20,7 @@ export default function Register() {
       password,
     });
 
-    if (res.status !== 200) {
+    if (res.status !== 201) {
       setBackendError("Credenciais inválidas");
       return;
     }

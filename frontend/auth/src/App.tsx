@@ -17,14 +17,7 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Navigate to="/enquetes" />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/" element={<Login />} />
 
           <Route
             path="/enquetes"
@@ -34,7 +27,6 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/" element={<Navigate to="/enquetes" />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

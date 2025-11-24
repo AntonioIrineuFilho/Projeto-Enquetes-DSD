@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
 import EnqueteForm from "../components/EnqueteForm";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
@@ -76,6 +76,7 @@ export default function Enquetes() {
           </DialogTrigger>
 
           <DialogContent>
+            <DialogTitle>Crie uma nova enquete</DialogTitle>
             <EnqueteForm onCreated={handleCreateEnquete} />
           </DialogContent>
         </Dialog>
