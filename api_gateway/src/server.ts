@@ -23,6 +23,7 @@ enqueteRouter.delete(
 );
 enqueteRouter.get("/:id", validateAuthHeader, EnqueteController.detailEnquete);
 enqueteRouter.put("/:id", validateAuthHeader, EnqueteController.updateEnquete);
+enqueteRouter.get("/", validateAuthHeader, EnqueteController.listEnquete);
 
 const voteRouter = Router();
 voteRouter.get("/:id", validateAuthHeader, VoteController.voteChoice);

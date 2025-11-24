@@ -134,8 +134,8 @@ class EnqueteService(ServiceBase):
                     id=str(enquete[0]),
                     title=enquete[1],
                     description=enquete[2],
-                    start_date=enquete[3],
-                    end_date=enquete[4],
+                    start_date=str(enquete[3]) if enquete[3] is not None else "",
+                    end_date=str(enquete[4]) if enquete[4] is not None else "",
                     choices=[]
                 )
             if enquete[5] is not None:
