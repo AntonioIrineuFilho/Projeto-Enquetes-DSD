@@ -4,11 +4,19 @@ import { EnqueteController, VoteController } from "./controllers";
 import validateAuthHeader from "./middlewares/validateAuthHeader";
 import proxy from "express-http-proxy";
 import cors from "cors";
+import fs from "fs";
+import path from "path";
+import yaml from "yaml";
+import swaggerUi from "swagger-ui-express";
+
+const filePath = path.join(process.cwd(), "openapi-gateway.yaml");
+const swaggerDocument = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
 const server = express();
 
 server.use(json());
 server.use(cors());
+server.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const authRestApiProxy = proxy(URLS.AUTH_REST_API);
 

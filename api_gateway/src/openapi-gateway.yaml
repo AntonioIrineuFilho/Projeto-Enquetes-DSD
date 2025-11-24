@@ -1,0 +1,177 @@
+openapi: 3.0.0
+info:
+  title: API Gateway
+  version: "1.0.0"
+  description: Gateway que integra microserviços de Auth e Enquetes
+
+paths:
+  /auth/register:
+    post:
+      summary: Registra usuário (proxy para Auth API)
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201': { description: Usuário registrado }
+        '400': { description: Dados inválidos }
+
+  /auth/login:
+    post:
+      summary: Login do usuário (proxy para Auth API)
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200': { description: Login bem-sucedido }
+        '401': { description: Credenciais inválidas }
+
+  /enquetes:
+    post:
+      summary: Criar uma enquete
+      tags: [Enquetes]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [question, options]
+              properties:
+                question:
+                  type: string
+                options:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201': { description: Enquete criada }
+        '401': { description: Token inválido }
+
+    get:
+      summary: Listar enquetes
+      tags: [Enquetes]
+      security:
+        - bearerAuth: []
+      responses:
+        '200': { description: Lista de enquetes }
+        '401': { description: Token inválido }
+
+  /enquetes/{id}:
+    get:
+      summary: Detalhar enquete
+      tags: [Enquetes]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': { description: Detalhes da enquete }
+        '404': { description: Não encontrada }
+
+    put:
+      summary: Atualizar enquete
+      tags: [Enquetes]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+                options:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200': { description: Atualizado }
+        '404': { description: Não encontrada }
+
+    delete:
+      summary: Deletar enquete
+      tags: [Enquetes]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': { description: Deletado }
+        '404': { description: Não encontrada }
+
+  /votes/{id}:
+    get:
+      summary: Votar em uma opção
+      tags: [Votes]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': { description: Voto registrado }
+        '404': { description: Opção não encontrada }
+
+  /votes/by-enquete/{id}:
+    get:
+      summary: Obter total de votos por enquete
+      tags: [Votes]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': { description: Contagens }
+        '404': { description: Enquete não encontrada }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

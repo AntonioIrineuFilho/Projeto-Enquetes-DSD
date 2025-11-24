@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  title: API Auth
+  version: "1.0.0"
+  description: Documentação das rotas de autenticação
+
+paths:
+  /register:
+    post:
+      summary: Registra um novo usuário
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: Usuário registrado
+        '400':
+          description: Dados inválidos
+
+  /login:
+    post:
+      summary: Login do usuário
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login bem-sucedido
+        '401':
+          description: Credenciais inválidas
+
+  /validate-token:
+    get:
+      summary: Valida o token JWT
+      tags: [Auth]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Token válido
+        '401':
+          description: Token inválido ou expirado
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
