@@ -4,4 +4,9 @@ node_modules
 .env.dev
 generated
 dist
+<<<<<<< HEAD
 .venv
+=======
+venv
+__pycache__
+>>>>>>> a2165929e5d707692026bf7f679ee3dbb4a866e9

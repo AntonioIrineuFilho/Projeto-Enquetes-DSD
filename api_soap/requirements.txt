@@ -1,3 +1,5 @@
 spyne
 pyjwt
 lxml
+psycopg2-binary
+python-dotenv
