@@ -24,6 +24,9 @@ class EnqueteOutput(ComplexModel):
     end_date = String
     choices = Array(ChoiceOutput)
 
+class Enquetes(ComplexModel):
+    enquetes = Array(EnqueteOutput)
+
 class ChoiceInput(ComplexModel):
     title = String
 
@@ -102,6 +105,52 @@ class EnqueteService(ServiceBase):
             choices=choices_output
         )
     
+    @rpc(String, String, _returns=Enquetes)
+    def listEnquetes(ctx, page, limit):
+        connection = psycopg2.connect(os.environ.get("DATABASE_URL"))
+        cursor = connection.cursor()
+        offset = int(page) * int(limit)
+        cursor.execute("""
+            SELECT 
+                e.id AS enquete_id,
+                e.title AS enquete_title,
+                e.description,
+                e.start_date,
+                e.end_date,
+                c.id AS choice_id,
+                c.title AS choice_title,
+                c.votes AS choice_votes
+            FROM enquetes e
+            LEFT JOIN choices c ON c.enquete_id = e.id
+            ORDER BY e.id, c.id
+            LIMIT %s OFFSET %s;
+        """, [limit, offset])
+        enquetes = cursor.fetchall()
+        enquetes_dict = {}
+        for enquete in enquetes:
+            eid = enquete[0]
+            if eid not in enquetes_dict:
+                enquetes_dict[eid] = EnqueteOutput(
+                    id=str(enquete[0]),
+                    title=enquete[1],
+                    description=enquete[2],
+                    start_date=enquete[3],
+                    end_date=enquete[4],
+                    choices=[]
+                )
+            if enquete[5] is not None:
+                enquetes_dict[eid].choices.append(
+                    ChoiceOutput(
+                        id=str(enquete[5]),
+                        title=enquete[6],
+                        votes=str(enquete[7])
+                    )
+                )
+        return Enquetes(enquetes=list(enquetes_dict.values()))
+            
+
+
+
     @rpc(Unicode, EnqueteInputUpdate, _returns=Unicode)
     def updateEnquete(ctx, enquete_id, enquete):
         connection = psycopg2.connect(os.environ.get("DATABASE_URL"))
