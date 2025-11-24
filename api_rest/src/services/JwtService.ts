@@ -10,7 +10,7 @@ class JwtService {
     const token = await new SignJWT()
       .setProtectedHeader({ alg: this.ALG, typ: "JWT" })
       .setIssuedAt()
-      .setExpirationTime("15min")
+      .setExpirationTime("1day")
       .sign(this.KEY);
 
     const refreshToken = await new SignJWT()
