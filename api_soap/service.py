@@ -88,6 +88,7 @@ class EnqueteService(ServiceBase):
             SELECT * 
             FROM choices 
             WHERE enquete_id=%s
+            ORDER BY choices.title ASC 
         """, (enquete_id,))
         choices = cursor.fetchall() # retorna lista de tuplas
         connection.close()
@@ -229,6 +230,7 @@ class EnqueteService(ServiceBase):
             SELECT *
             FROM choices
             WHERE enquete_id=%s
+            ORDER BY choices.title ASC 
         """, (enquete_id,))
         choices_selected = cursor.fetchall()
         connection.close()
