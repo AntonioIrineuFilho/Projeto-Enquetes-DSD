@@ -21,7 +21,8 @@ export default function EnqueteForm({ onCreated }: EnqueteFormProps) {
   const [choices, setChoices] = useState<IChoice[]>([]);
 
   const addChoice = () => {
-    if (choices.length >= 4) return;
+    if (choices.length >= 4) {alert("Você só pode adicionar até 4 opções!");return;
+};
     setChoices([...choices, { title: "" }]);
   }
   const today = new Date().toISOString().split("T")[0];

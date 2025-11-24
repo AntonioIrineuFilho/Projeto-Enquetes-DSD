@@ -24,6 +24,15 @@ export default function Enquetes() {
   const [totalEnquetes, setTotalEnquetes] = useState(1);
   const [enquetes, setEnquetes] = useState<IEnquete[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedEnquete, setSelectedEnquete] = useState<IEnquete | null>(null);
+  const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
+
+  const openEnqueteDetail = (enquete: IEnquete) => {
+    setSelectedEnquete(enquete);
+    setIsDetailModalVisible(true);
+  };
+
+
 
   const loadEnquetes = async () => {
     try {
@@ -81,7 +90,7 @@ export default function Enquetes() {
           </DialogContent>
         </Dialog>
       </div>
-
+     
       <div className="flex flex-col gap-8">
         {enquetes.length === 0 ? (
           <p>Nenhuma enquete encontrada no momento.</p>
@@ -89,7 +98,7 @@ export default function Enquetes() {
           <>
             <ol className="flex flex-col gap-4">
               {enquetes.map((e) => (
-                <li key={e.id} className="p-4 border rounded bg-gray-50">
+                <li key={e.id} className="p-4 border rounded bg-gray-50 cursor-pointer" onClick={() => openEnqueteDetail(e)}>
                   <h2 className="font-semibold">{e.title}</h2>
                   <p className="text-sm text-gray-600">{e.description}</p>
                   <p className="text-xs text-gray-400">Fim: {e.end_date}</p>
@@ -97,6 +106,7 @@ export default function Enquetes() {
               ))}
             </ol>
 
+            
             <Pagination
               total={totalEnquetes}
               limit={pagination.limit}
