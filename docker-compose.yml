@@ -19,17 +19,28 @@ services:
       - 3334:3334
     depends_on:
       - db
-      - gateway
+    networks:
+      - default
+
+  soap:
+    build: ./api_soap/
+    container_name: api_soap
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
     networks:
       - default
 
   gateway:
     build: ./api_gateway/
-    container_name: gateway
+    container_name: api_gateway
     ports:
       - 3333:3333
     depends_on:
       - db
+      - soap
+      - rest
     networks:
       - default
 
