@@ -5,11 +5,9 @@ import {
   RegisterController,
   ValidateTokenController,
 } from "./controllers";
-import { swaggerMiddleware } from "./lib/swagger";
 const server = express();
 server.use(express.json());
 server.use(cors());
-server.use("/docs", ...swaggerMiddleware);
 
 server.post(
   "/register",

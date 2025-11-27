@@ -27,5 +27,6 @@ COPY --from=dependencies /app/node_modules node_modules
 COPY --from=build /app/dist dist
 COPY package.json yarn.lock ./
 COPY .env .
+COPY ./src/openapi-gateway.yaml ./openapi-gateway.yaml
 
 CMD [ "yarn", "start" ]

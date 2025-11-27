@@ -33,7 +33,7 @@ export default function Login() {
       login(res.data.token);
       navigate("/enquetes");
     } catch (err) {
-      setBackendError("Erro de conexão com o servidor");
+      setBackendError("Credenciais inválidas");
     }
   }
 
