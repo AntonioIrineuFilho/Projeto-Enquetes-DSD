@@ -38,21 +38,29 @@ export default function Login() {
   }
 
   return (
-    <div className="w-full h-screen flex items-center justify-center">
-      <Card className="w-[350px]">
+    <div className="w-full h-screen flex flex-col items-center justify-center bg-slate-50 px-4">
+
+      <div className="mb-6 text-center">
+        <h1 className="text-3xl font-bold tracking-tight">Sistema de Enquetes</h1>
+        <p className="text-sm text-gray-600 mt-1">
+          Crie e participe de enquetes de forma simples e fácil
+        </p>
+      </div>
+
+      <Card className="w-[350px] shadow-md">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
+          <CardTitle className="text-xl">Login</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="space-y-3" onSubmit={handleLogin}>
             <Input
-              placeholder="username"
+              placeholder="Nome de usuário"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
 
             <Input
-              placeholder="password"
+              placeholder="Digite sua senha"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -68,7 +76,7 @@ export default function Login() {
 
             <a
               href="/register"
-              className="block text-center text-sm text-blue-600 mt-2"
+              className="block text-center text-sm text-blue-600 mt-2 hover:underline"
             >
               Criar conta
             </a>

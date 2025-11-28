@@ -112,7 +112,7 @@ export default function Enquetes() {
 
   return (
     <>
-      <div className="p-8 max-w-3xl mx-auto space-y-6">
+      <div className="p-8 bg-slate-50 max-w-3xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
           <Button
             variant="destructive"
