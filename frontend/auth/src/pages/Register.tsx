@@ -15,7 +15,7 @@ export default function Register() {
     setBackendError(null);
     setSuccess(false);
 
-    const res = await axios.post("http://localhost:3333/auth/register", {
+    const res = await axios.post("http://192.168.15.116:3333/auth/register", {
       username,
       password,
     });
@@ -29,21 +29,29 @@ export default function Register() {
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center">
-      <Card className="w-[350px]">
+    <div className="w-full h-screen flex flex-col items-center justify-center bg-slate-50 px-4">
+
+      <div className="mb-6 text-center">
+        <h1 className="text-3xl font-bold tracking-tight">Sistema de Enquetes</h1>
+        <p className="text-sm text-gray-600 mt-1">
+          Crie e participe de enquetes de forma simples e fácil
+        </p>
+      </div>
+
+      <Card className="w-[350px] shadow-md">
         <CardHeader>
-          <CardTitle>Registre-se</CardTitle>
+          <CardTitle className="text-xl">Criar conta</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="space-y-3" onSubmit={handleRegister}>
             <Input
-              placeholder="username"
+              placeholder="Seu nome de usuário"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
 
             <Input
-              placeholder="password"
+              placeholder="Sua senha"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

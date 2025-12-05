@@ -1,13 +1,16 @@
+// context/AuthContext.tsx
 import { createContext, useContext, useState } from "react";
 
 interface AuthContextType {
   token: string | null;
-  login: (t: string) => void;
+  username: string | null;
+  login: (t: string, u: string) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   token: null,
+  username: null,
   login: () => {},
   logout: () => {},
 });
@@ -16,19 +19,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token")
   );
+  const [username, setUsername] = useState<string | null>(
+    localStorage.getItem("username")
+  );
 
-  const login = (t: string) => {
+  const login = (t: string, u: string) => {
     localStorage.setItem("token", t);
+    localStorage.setItem("username", u);
     setToken(t);
+    setUsername(u);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("username");
     setToken(null);
+    setUsername(null);
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider value={{ token, username, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

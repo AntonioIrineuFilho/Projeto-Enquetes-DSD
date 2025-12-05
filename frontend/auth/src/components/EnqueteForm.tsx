@@ -30,7 +30,7 @@ export default function EnqueteForm({ onCreated }: EnqueteFormProps) {
   const submit = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:3333/enquetes",
+        "http://192.168.15.116:3333/enquetes",
         {
           title,
           description: desc,

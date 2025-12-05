@@ -44,18 +44,5 @@ services:
     networks:
       - default
 
-  frontend:
-    build: ./frontend/auth/
-    container_name: front_end
-    ports:
-      - 4173:4173
-    depends_on:
-      - db
-      - rest
-      - soap
-      - gateway
-    networks:
-      - default
-
 networks:
   default:

@@ -1,5 +1,14 @@
 {
   "dependencies": {
-    "rsuite": "^6.0.0"
+    "@prisma/client": "^7.1.0",
+    "axios": "^1.13.2",
+    "prisma": "^7.1.0",
+    "rsuite": "^6.0.0",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

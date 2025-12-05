@@ -35,12 +35,12 @@ export default function Enquetes() {
 const openEnqueteDetail = async (enquete: IEnquete) => {
   try {
     const resDetail = await axios.get(
-      `http://localhost:3333/enquetes/${enquete.id}`,
+      `http://192.168.15.116:3333/enquetes/${enquete.id}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
     const resVotes = await axios.get(
-      `http://localhost:3333/votes/by-enquete/${enquete.id}`,
+      `http://192.168.15.116:3333/votes/by-enquete/${enquete.id}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
@@ -57,7 +57,7 @@ const openEnqueteDetail = async (enquete: IEnquete) => {
   const loadEnquetes = async () => {
     try {
       const res = await axios.get<IListEnqueteDTO>(
-        "http://localhost:3333/enquetes",
+        "http://192.168.15.116:3333/enquetes",
         {
           params: {
             page: pagination.page - 1,
@@ -102,28 +102,33 @@ const openEnqueteDetail = async (enquete: IEnquete) => {
 
   return (
     <>
-    <div className="p-8 max-w-3xl mx-auto space-y-6">
-      <div className="flex justify-between items-center">
-        <Button 
-          variant="destructive" 
-          onClick={handleLogout} 
-          className="flex items-center gap-2 cursor-pointer"
-        >
-          <LogOut size={16} /> 
-        </Button>
-        <h1 className="text-xl font-bold">Enquetes</h1>
+    <div className="p-8 max-w-3xl mx-auto space-y-6  bg-slate-50">
+     <div className="flex items-center justify-between gap-2 px-2 sm:px-0">
+  {/* Botão de logout */}
+  <Button 
+    variant="destructive" 
+    onClick={handleLogout} 
+    className="flex items-center gap-2 shrink-0"
+  >
+    <LogOut size={16} /> 
+  </Button>
 
-        <Dialog open={isModalVisible} onOpenChange={setIsModalVisible}>
-          <DialogTrigger asChild>
-            <Button className="cursor-pointer">Nova Enquete</Button>
-          </DialogTrigger>
+  <h1 className="text-xl font-bold text-center flex-1 truncate">
+    Enquetes
+  </h1>
 
-          <DialogContent>
-            <DialogTitle>Crie uma nova enquete</DialogTitle>
-            <EnqueteForm onCreated={handleCreateEnquete} />
-          </DialogContent>
-        </Dialog>
-      </div>
+  <Dialog open={isModalVisible} onOpenChange={setIsModalVisible}>
+    <DialogTrigger asChild>
+      <Button className="cursor-pointer shrink-0">Nova Enquete</Button>
+    </DialogTrigger>
+
+    <DialogContent>
+      <DialogTitle>Crie uma nova enquete</DialogTitle>
+      <EnqueteForm onCreated={handleCreateEnquete} />
+    </DialogContent>
+  </Dialog>
+</div>
+
      
       <div className="flex flex-col gap-8">
   {enquetes.length === 0 ? (
